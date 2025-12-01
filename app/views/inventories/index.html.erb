@@ -1,0 +1,52 @@
+<div class="app-section">
+  <h2>Sessions d'inventaire</h2>
+
+  <p>
+    <%= link_to "NEW", new_inventory_path, class: "btn btn-primary" %>
+  </p>
+</div>
+
+<div class="app-section">
+  <h2>Sessions actives</h2>
+
+  <% if @active_sessions.any? %>
+    <ul style="list-style: none; padding-left: 0;">
+      <% @active_sessions.each do |session| %>
+        <li style="margin-bottom: 8px;">
+          <%= link_to session.name, inventory_path(session) %>
+          <% if session.supplier %>
+            <span class="text-muted">( <%= session.supplier.name %> )</span>
+          <% end %>
+          <span class="text-muted">– créée le <%= session.created_at.strftime("%d/%m/%Y à %H:%M") %></span>
+          <%= button_to "Clôturer",
+                        archive_inventory_path(session),
+                        method: :patch,
+                        class: "btn btn-danger",
+                        form: { data: { turbo_confirm: "Clôturer cette session ?" } } %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-muted">Aucune session active.</p>
+  <% end %>
+</div>
+
+<div class="app-section">
+  <h2>Sessions archivées</h2>
+
+  <% if @archived_sessions.any? %>
+    <ul style="list-style: none; padding-left: 0;">
+      <% @archived_sessions.each do |session| %>
+        <li style="margin-bottom: 4px;">
+          <%= link_to session.name, inventory_path(session) %>
+          <% if session.supplier %>
+            <span class="text-muted">( <%= session.supplier.name %> )</span>
+          <% end %>
+          <span class="text-muted">– créée le <%= session.created_at.strftime("%d/%m/%Y à %H:%M") %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-muted">Aucune session archivée.</p>
+  <% end %>
+</div>

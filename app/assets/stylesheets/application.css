@@ -1,15 +1,415 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
  *= require_tree .
  *= require_self
  */
+
+:root {
+  --bg-page: #ffffff;
+  --bg-card: #f8f8f8;
+  --border-subtle: #e0e0e0;
+  --text-main: #111111;
+  --text-muted: #666666;
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Roboto", sans-serif;
+}
+
+/* ----- Base layout ----- */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+}
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 960px;
+}
+
+.app-section {
+  margin-bottom: 32px;
+}
+
+.app-section h2 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.text-muted {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ----- Header + menu sandwich ----- */
+
+.app-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Bouton sandwich */
+
+.menu-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  border: 1px solid var(--border-subtle);
+  background-color: #ffffff;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Menu déroulant */
+
+.app-nav {
+  display: none;
+  position: absolute;
+  right: 16px;
+  top: 56px;
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px 0;
+  min-width: 180px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  z-index: 100;
+}
+
+.app-nav.open {
+  display: block;
+}
+
+.app-nav-link {
+  display: block;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+.app-nav-link:hover {
+  background-color: #f5f5f5;
+}
+
+/* ----- Boutons & actions ----- */
+
+.session-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background-color: #ffffff;
+  color: var(--text-main);
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.btn-wide {
+  min-width: 140px;
+}
+
+.btn-main {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: #ffffff;
+}
+
+.btn-go-select {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid #66bb6a;
+  background-color: #66bb6a;
+  color: #ffffff;
+  min-width: 180px;
+}
+
+.btn-go-select select {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 8px 16px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.btn-go-select select:focus {
+  outline: none;
+}
+
+.btn-finito {
+  background-color: #1976d2;
+  border-color: #1976d2;
+  color: #ffffff;
+}
+
+.btn-ghost {
+  border-color: transparent;
+}
+
+/* Champ de scan + bouton SCANN */
+
+.scan-input {
+  width: 100%;
+  max-width: 480px;
+  padding: 14px 16px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: 2px solid #b0b0b0;
+  background-color: #fafafa;
+  box-sizing: border-box;
+}
+
+.scan-input:focus {
+  border-color: #1976d2;
+  background-color: #ffffff;
+  outline: none;
+}
+
+.btn-scann {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  height: 46px;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.btn-scann:hover {
+  background-color: #145ca4;
+}
+
+/* ----- Tables / live scan ----- */
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th,
+.table td {
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.table th {
+  font-weight: 500;
+  background-color: #fafafa;
+}
+
+.scan-row-found {
+  background-color: #e6f4ea;
+}
+
+.scan-row-not-found {
+  background-color: #fdecea;
+}
+
+.table-row-highlight {
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+}
+
+/* ----- Flash ----- */
+
+.flash {
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.flash-notice {
+  background-color: #f3f3f3;
+}
+
+.flash-alert {
+  background-color: #ffe6e6;
+}
+
+
+/* Boutons d’export */
+
+.btn-export {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  gap: 8px;
+  min-width: 200px;
+  border: 1px solid transparent;
+}
+
+.btn-export-found {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: #ffffff;
+}
+
+.btn-export-found:hover {
+  background-color: #449d48;
+}
+
+.btn-export-not-found {
+  background-color: #e53935;
+  border-color: #e53935;
+  color: #ffffff;
+}
+
+.btn-export-not-found:hover {
+  background-color: #cc3331;
+}
+
+/* Icône download pour les boutons d’export */
+.icon-download {
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  fill: currentColor; /* prend la couleur du texte du bouton */
+}
+
+/* Petit conteneur pour les boutons d’export */
+.export-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* ----- Cards fournisseurs (layout déjà ok) ----- */
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.card {
+  border-radius: 12px;
+  border: 1px solid #e2e2e2;
+  background-color: #fbfbfb;
+  padding: 16px;
+  width: 260px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card h3 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.card p {
+  margin: 2px 0;
+  font-size: 14px;
+}
+
+/* Footer des cards pour le bouton */
+
+.card-footer {
+  margin-top: 16px;
+}
+
+/* ----- Bouton lavande "Configurer les EAN" ----- */
+
+.btn-supplier {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  gap: 8px;
+  min-width: 200px;
+  border: 1px solid transparent;
+
+  background-color: #b39dff;      /* lavande */
+  border-color: #a48dff;
+  color: #ffffff;
+}
+
+.btn-supplier:hover {
+  background-color: #a48dff;
+}
+
+/* Petite icône import dans le bouton */
+
+.icon-import {
+  width: 16px;
+  height: 16px;
+  fill: currentColor; /* même couleur que le texte */
+}

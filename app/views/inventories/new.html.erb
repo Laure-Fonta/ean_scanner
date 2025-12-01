@@ -1,0 +1,24 @@
+<div class="app-section">
+  <h2>NEW – Session d'inventaire</h2>
+
+  <%= form_with model: @session, url: inventories_path, local: true do |form| %>
+    <div style="margin-bottom: 12px;">
+      <%= form.label :name, "Nom de la session" %><br>
+      <%= form.text_field :name,
+                          class: "input-text",
+                          placeholder: "ex : Inventaire Simone Pérèle – 30/11/2025" %>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+      <%= form.label :supplier_id, "Fournisseur (optionnel)" %><br>
+      <%= form.collection_select :supplier_id,
+                                 @suppliers,
+                                 :id,
+                                 :name,
+                                 { include_blank: "Tous fournisseurs" },
+                                 { class: "select" } %>
+    </div>
+
+    <%= form.submit "Créer", class: "btn btn-primary" %>
+  <% end %>
+</div>

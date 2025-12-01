@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  inventory_session: one
+  ean: MyString
+  found: false
+  supplier: one
+  supplier_item: one
+
+two:
+  inventory_session: two
+  ean: MyString
+  found: false
+  supplier: two
+  supplier_item: two

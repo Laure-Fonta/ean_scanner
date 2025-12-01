@@ -1,0 +1,34 @@
+<div class="app-section">
+  <h2><%= @supplier.name %></h2>
+  <p class="text-muted">
+    Code interne : <%= @supplier.code %><br>
+    EAN connus : <%= @supplier.supplier_items.count %>
+  </p>
+
+  <% if flash[:ean_total].present? %>
+    <div style="margin-top: 8px;">
+      <p>
+        EAN Connus : <strong><%= flash[:ean_total] %></strong><br>
+        EAN before : <%= flash[:ean_before] %><br>
+        EAN nouveaux : <%= flash[:ean_new] %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+
+<h2>Importer un fichier EAN</h2>
+
+<%= form_with url: import_items_supplier_path(@supplier), local: true, html: { multipart: true } do |form| %>
+  <div>
+    <%= form.label :file, "Fichier fournisseur (CSV, Excel, etc.)" %><br>
+    <%= form.file_field :file %>
+  </div>
+
+  <div style="margin-top: 10px;">
+    <%= form.submit "Importer" %>
+  </div>
+<% end %>
+
+
+<p><%= link_to "Retour", root_path %></p>

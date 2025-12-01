@@ -1,0 +1,64 @@
+<div class="app-section">
+  <h2>Inventaire</h2>
+  <p>
+    <strong><%= @session.name %></strong>
+    <% if @session.supplier %>
+      <span class="text-muted">( <%= @session.supplier.name %> )</span>
+    <% end %>
+    <br>
+    <span class="text-muted">Créée le <%= @session.created_at.strftime("%d/%m/%Y à %H:%M") %></span>
+  </p>
+
+  <div class="export-actions">
+    <%= link_to export_found_inventory_path(@session),
+                class: "btn-export btn-export-found" do %>
+      <svg class="icon-download" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M5 20h14v-2H5v2zm7-18v12l4-4 1.41 1.41L12 18.83l-5.41-5.42L8 10l4 4V2h1z"/>
+      </svg>
+      EAN trouvés
+    <% end %>
+
+    <%= link_to export_not_found_inventory_path(@session),
+                class: "btn-export btn-export-not-found" do %>
+      <svg class="icon-download" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M5 20h14v-2H5v2zm7-18v12l4-4 1.41 1.41L12 18.83l-5.41-5.42L8 10l4 4V2h1z"/>
+      </svg>
+      EAN non trouvés
+    <% end %>
+  </div>
+</div>
+
+<div class="app-section">
+  <h2>Résultats de la session</h2>
+
+  <% if @scans.any? %>
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date/heure</th>
+            <th>EAN</th>
+            <th>Statut</th>
+            <th>Fournisseur</th>
+            <th>Article</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @scans.each do |scan| %>
+            <tr>
+              <td><%= scan.created_at.strftime("%d/%m/%Y %H:%M:%S") %></td>
+              <td><%= scan.ean %></td>
+              <td class="<%= scan.found ? 'text-found' : 'text-not-found' %>">
+                <%= scan.found ? "Trouvé" : "Non trouvé" %>
+              </td>
+              <td><%= scan.supplier&.name %></td>
+              <td><%= scan.supplier_item&.name %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="text-muted">Aucun scan dans cette session.</p>
+  <% end %>
+</div>

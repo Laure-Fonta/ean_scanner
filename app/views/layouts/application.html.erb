@@ -11,6 +11,63 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="app-layout">
+      <header class="app-header">
+        <div class="app-header-inner">
+          <h1>Inventaire EAN</h1>
+
+          <button
+            class="menu-toggle"
+            id="menu-toggle"
+            type="button"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+            aria-controls="main-menu">
+            ☰
+          </button>
+        </div>
+
+        <nav class="app-nav" id="main-menu">
+          <%= link_to "Scanner", root_path, class: "app-nav-link" %>
+          <%= link_to "Gérer les inventaires", inventories_path, class: "app-nav-link" %>
+          <%= link_to "Données fournisseurs", suppliers_path, class: "app-nav-link" %>
+        </nav>
+
+      </header>
+
+      <main class="app-main">
+        <div class="app-container">
+          <% if notice %>
+            <div class="flash flash-notice"><%= notice %></div>
+          <% end %>
+          <% if alert %>
+            <div class="flash flash-alert"><%= alert %></div>
+          <% end %>
+
+          <%= yield %>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function setupMenuToggle() {
+        var toggle = document.getElementById("menu-toggle");
+        var nav = document.getElementById("main-menu");
+
+        if (!toggle || !nav) return;
+
+        // éviter de doubler les écouteurs
+        if (toggle.dataset.bound === "true") return;
+        toggle.dataset.bound = "true";
+
+        toggle.addEventListener("click", function() {
+          var isOpen = nav.classList.toggle("open");
+          toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", setupMenuToggle);
+      document.addEventListener("turbo:load", setupMenuToggle);
+    </script>
   </body>
 </html>

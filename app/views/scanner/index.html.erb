@@ -1,0 +1,120 @@
+<div class="app-section">
+  <% if @sessions.any? %>
+    <!-- Ligne d’actions : NEW / GO (avec menu intégré) / Finito / Gérer -->
+    <div class="session-actions">
+      <!-- NEW -->
+      <%= link_to "NEW",
+                  new_inventory_path,
+                  class: "btn btn-main btn-wide" %>
+
+      <!-- GO : bouton vert avec select intégré -->
+      <%= form_with url: root_path, method: :get, local: true do %>
+        <div class="btn-go-select">
+          <select name="inventory_session_id"
+                  id="inventory_session_id"
+                  onchange="this.form.submit()">
+            <% @sessions.each do |session| %>
+              <option value="<%= session.id %>" <%= "selected" if @current_session && session.id == @current_session.id %>>
+                GO – <%= session.name %>
+                <% if session.supplier %>
+                  ( <%= session.supplier.name %> )
+                <% end %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+      <% end %>
+
+      <!-- FINITO -->
+      <% if @current_session %>
+        <%= link_to "Finito",
+                    inventory_path(@current_session),
+                    class: "btn btn-finito btn-wide" %>
+      <% end %>
+
+      <!-- Lien gestion -->
+      <%= link_to "Gérer les inventaires",
+                  inventories_path,
+                  class: "btn btn-ghost" %>
+    </div>
+
+    <% if @current_session %>
+      <p class="text-muted">
+        Session en cours :
+        <strong><%= @current_session.name %></strong>
+        <% if @current_session.supplier %>
+          ( <%= @current_session.supplier.name %> )
+        <% end %>
+        – créée le <%= @current_session.created_at.strftime("%d/%m/%Y à %H:%M") %>
+      </p>
+    <% end %>
+
+    <!-- Bloc Scan -->
+    <div class="app-section">
+      <h2>Scan</h2>
+
+      <form id="scan-form"
+            action="<%= scan_ean_path %>"
+            method="post"
+            data-turbo="false"
+            style="margin-top: 8px; display: flex; align-items: center;">
+
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <%= hidden_field_tag :inventory_session_id, @current_session&.id %>
+
+        <!-- Champ de scan très visible -->
+        <input
+          type="text"
+          name="ean"
+          id="ean"
+          value=""
+          autofocus
+          class="scan-input"
+          placeholder="Scannez un EAN ou tapez-le"
+        >
+
+        <!-- Petit bouton SCANN -->
+        <button type="submit" class="btn-scann">
+          SCANN
+        </button>
+      </form>
+    </div>
+
+    <!-- Live scan -->
+    <div class="app-section">
+      <h2>Live scan</h2>
+
+      <% if @scans.present? %>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Date/heure</th>
+                <th>EAN</th>
+                <th>Fournisseur</th>
+                <th>Article</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @scans.each_with_index do |scan, index| %>
+                <% row_class = scan.found ? 'scan-row-found' : 'scan-row-not-found' %>
+                <% row_class += ' table-row-highlight' if index == 0 %>
+                <tr class="<%= row_class %>">
+                  <td><%= scan.created_at.strftime("%d/%m/%Y %H:%M:%S") %></td>
+                  <td><%= scan.ean %></td>
+                  <td><%= scan.supplier&.name %></td>
+                  <td><%= scan.supplier_item&.name %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <p class="text-muted">Aucun scan enregistré pour le moment dans cette session.</p>
+      <% end %>
+    </div>
+  <% else %>
+    <p style="color: #c62828; margin-bottom: 12px;">Aucune session d'inventaire active n'existe encore.</p>
+    <%= link_to "NEW", new_inventory_path, class: "btn btn-main btn-wide" %>
+  <% end %>
+</div>
