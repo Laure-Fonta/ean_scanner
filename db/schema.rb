@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_28_135706) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_03_095015) do
   create_table "inventory_scans", force: :cascade do |t|
     t.integer "inventory_session_id", null: false
     t.string "ean"
@@ -39,6 +39,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_28_135706) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ref"
+    t.string "nom"
+    t.string "coloris"
+    t.string "taille"
     t.index ["ean"], name: "index_supplier_items_on_ean"
     t.index ["supplier_id"], name: "index_supplier_items_on_supplier_id"
   end

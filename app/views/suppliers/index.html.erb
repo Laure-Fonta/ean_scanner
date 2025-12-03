@@ -3,6 +3,10 @@
   <p class="text-muted">
     Gérer les fichiers Excel/CSV par marque. Ces données alimentent le scan d'inventaire.
   </p>
+
+  <p style="margin-top: 16px;">
+    <%= link_to "Ajouter un fournisseur", new_supplier_path, class: "btn-supplier" %>
+  </p>
 </div>
 
 <div class="app-section">
@@ -19,11 +23,9 @@
           <div class="card-footer">
             <%= link_to supplier_path(supplier), class: "btn-supplier" do %>
               <svg class="icon-import" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <!-- petite flèche vers le bas style import -->
                 <path d="M5 20h14v-2H5v2zm7-15v8.17l3.59-3.58L17 11l-5 5-5-5 1.41-1.41L11 13.17V5h1z"/>
               </svg>
               Télécharger fichier tarif
-              <%# tu peux remplacer le texte par "Télécharger fichier tarif" si tu préfères %>
             <% end %>
           </div>
         </div>

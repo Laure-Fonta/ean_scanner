@@ -1,0 +1,30 @@
+<div class="app-section">
+  <h2>Ajouter un fournisseur</h2>
+  <p class="text-muted">
+    Crée un fournisseur pour pouvoir lui associer un fichier EAN.
+  </p>
+</div>
+
+<div class="app-section">
+  <div class="card">
+    <%= form_with model: @supplier do |f| %>
+      <div class="form-group">
+        <%= f.label :name, "Nom du fournisseur" %><br>
+        <%= f.text_field :name %>
+      </div>
+
+      <div class="form-group" style="margin-top: 8px;">
+        <%= f.label :code, "Code interne" %><br>
+        <%= f.text_field :code %>
+      </div>
+
+      <div style="margin-top: 16px;">
+        <%= f.submit "Créer le fournisseur", class: "btn-supplier" %>
+      </div>
+    <% end %>
+  </div>
+
+  <p style="margin-top: 12px;">
+    <%= link_to "Retour à la liste", suppliers_path, class: "text-muted" %>
+  </p>
+</div>

@@ -89,25 +89,41 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Date/heure</th>
-                <th>EAN</th>
+                <th>Date / heure</th>
                 <th>Fournisseur</th>
-                <th>Article</th>
+                <th>EAN scanné</th>
+                <th>Réf</th>
+                <th>Nom</th>
+                <th>Coloris</th>
+                <th>Taille</th>
               </tr>
             </thead>
+
             <tbody>
-              <% @scans.each_with_index do |scan, index| %>
-                <% row_class = scan.found ? 'scan-row-found' : 'scan-row-not-found' %>
-                <% row_class += ' table-row-highlight' if index == 0 %>
-                <tr class="<%= row_class %>">
-                  <td><%= scan.created_at.strftime("%d/%m/%Y %H:%M:%S") %></td>
-                  <td><%= scan.ean %></td>
+              <% @scans.each do |scan| %>
+                <% item = scan.supplier_item %>
+
+                <tr class="table-row-highlight <%= scan.found? ? 'scan-row-found' : 'scan-row-not-found' %>">
+                  <!-- Date / heure -->
+                  <td><%= l(scan.created_at, format: :short) %></td>
+
+                  <!-- Fournisseur -->
                   <td><%= scan.supplier&.name %></td>
-                  <td><%= scan.supplier_item&.name %></td>
+
+                  <!-- EAN scanné -->
+                  <td><%= scan.ean %></td>
+
+                  <!-- Données article (issues de SupplierItem) -->
+                  <td><%= item&.ref     || "—" %></td>
+                  <td><%= item&.nom     || item&.name || "—" %></td>
+                  <td><%= item&.coloris || "—" %></td>
+                  <td><%= item&.taille  || "—" %></td>
                 </tr>
               <% end %>
             </tbody>
           </table>
+
+
         </div>
       <% else %>
         <p class="text-muted">Aucun scan enregistré pour le moment dans cette session.</p>

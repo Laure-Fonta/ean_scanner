@@ -3,7 +3,8 @@ Rails.application.routes.draw do
 
   post "scan_ean", to: "scanner#scan", as: :scan_ean
 
-  resources :suppliers, only: [:index, :show] do
+  # Ajout de :new et :create ici (le reste inchangé)
+  resources :suppliers, only: [:index, :show, :new, :create] do
     post :import_items, on: :member
   end
 
