@@ -96,6 +96,7 @@
                 <th>Nom</th>
                 <th>Coloris</th>
                 <th>Taille</th>
+                <th></th>
               </tr>
             </thead>
 
@@ -118,12 +119,23 @@
                   <td><%= item&.nom     || item&.name || "—" %></td>
                   <td><%= item&.coloris || "—" %></td>
                   <td><%= item&.taille  || "—" %></td>
+                  <!-- Poubelle -->
+                  <td class="scan-actions">
+                  <%= button_to inventory_inventory_scan_path(scan.inventory_session_id, scan),
+                                method: :delete,
+                                form: { data: { turbo: false } },
+                                class: "scan-trash",
+                                title: "Supprimer ce scan",
+                                data: { confirm: "Supprimer ce scan ?" } do %>
+                    🗑
+                  <% end %>
+                </td>
+
+
                 </tr>
               <% end %>
             </tbody>
           </table>
-
-
         </div>
       <% else %>
         <p class="text-muted">Aucun scan enregistré pour le moment dans cette session.</p>

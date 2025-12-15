@@ -14,5 +14,8 @@ Rails.application.routes.draw do
       get  :export_not_found
       patch :archive
     end
+
+    resources :inventory_scans, only: [:destroy]
+
   end
 end
